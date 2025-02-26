@@ -24,5 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Jest tests
-        run: npm test
+      - name: Donner les permissions aux binaires Jest
+        run: chmod +x node_modules/.bin/jest
+
+      - name: Run Jest tests avec chemin absolu
+        run: npx jest
