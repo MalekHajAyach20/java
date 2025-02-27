@@ -41,9 +41,21 @@ jobs:
     needs: prepare_deployment
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Vérifie que les fichiers sont bien récupérés
+
+      - name: Lister les fichiers avant déploiement
+        run: ls -la src  # Vérifie si les fichiers sont bien là avant `scp`
+
+      - name: Configurer SSH pour le déploiement
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H server >> ~/.ssh/known_hosts
+
       - name: Déploiement automatique en production
         run: |
           echo "🚀 Déploiement en cours..."
-          # Exemple : Copie des fichiers sur un serveur distant avec SCP
-          scp -r ./* user@server:/var/www/html/
+          scp -r src/* user@server:/var/www/html/
           echo "✅ Déploiement terminé !"
