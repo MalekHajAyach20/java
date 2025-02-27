@@ -40,9 +40,10 @@ jobs:
   deploy:
     needs: prepare_deployment
     runs-on: ubuntu-latest
-    environment:
-      name: production  # Active une validation manuelle sur GitHub
-      url: https://mon-site-en-production.com  # (Facultatif : ajoute une URL de prod)
     steps:
-      - name: Attente d'approbation pour le déploiement
-        run: echo "⏳ En attente d'une validation humaine pour le déploiement."
+      - name: Déploiement automatique en production
+        run: |
+          echo "🚀 Déploiement en cours..."
+          # Exemple : Copie des fichiers sur un serveur distant avec SCP
+          scp -r ./* user@server:/var/www/html/
+          echo "✅ Déploiement terminé !"
